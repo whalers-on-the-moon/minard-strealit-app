@@ -103,8 +103,6 @@ ax1.get_yaxis().set_visible(False)
 # Tile mapping
 basemap_urls = {
     "CartoDB Voyager": "https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=cb1_40ps_1_7b191fe849f5b1f855fa55f8",
-    "CartoDB Positron": cx.providers.CartoDB.Positron,
-    "OpenStreetMap": cx.providers.OpenStreetMap.Mapnik,
     "Esri WorldImagery": cx.providers.Esri.WorldImagery
 }
 if basemap_provider != "None":
