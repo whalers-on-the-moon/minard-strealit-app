@@ -72,6 +72,9 @@ basemap_provider = st.sidebar.selectbox(
     ["CartoDB Voyager", "Esri WorldImagery", "None"]
 )
 
+adv_scale = st.sidebar.slider("Advance Width Scale", 5000, 20000, 12000, 1000)
+ret_scale = st.sidebar.slider("Retreat Width Scale", 5000, 20000, 12000, 1000)
+
 # 4. Scrubbing Slider & Metrics
 st.markdown("### Campaign Progression Slider")
 current_step = st.select_slider(
