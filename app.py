@@ -69,7 +69,7 @@ cities, timeline, adv_polotsk, adv_detachment, ret_polotsk, ret_detachment = loa
 st.sidebar.header("Map Controls")
 basemap_provider = st.sidebar.selectbox(
     "Basemap Style",
-    ["CartoDB Voyager", "CartoDB Positron", "OpenStreetMap", "Esri WorldImagery", "None"]
+    ["CartoDB Voyager", "Esri WorldImagery", "None"]
 )
 
 adv_scale = st.sidebar.slider("Advance Width Scale", 5000, 20000, 12000, 1000)
@@ -88,11 +88,36 @@ initial_troops = 422000
 current_troops = curr_row['survivors']
 loss_pct = ((current_troops - initial_troops) / initial_troops) * 100
 
-col1, col2, col3, col4 = st.columns(4)
+#col1, col2, col3, col4 = st.columns(4)
+#col1.metric("Troops Remaining", f"{current_troops:,}", f"{loss_pct:.1f}%")
+#col2.metric("Phase & Stage", f"{curr_row['phase']} — {curr_row['stage']}")
+#col3.metric("Date", curr_row['date'])
+#col4.metric("Temperature", f"{curr_row['temp']}° Ré" if pd.notnull(curr_row['temp']) else "N/A")
+
+############# Inject CSS to allow metric text wrapping without truncation
+st.markdown(
+    """
+    <style>
+    [data-testid="stMetricValue"] {
+        white-space: normal !important;
+        font-size: 1.4rem !important;
+        line-height: 1.2 !important;
+    }
+    </style>
+""",
+    unsafe_allow_html=True,
+)
+
+# Allocate weighted column width to give Phase & Stage room
+col1, col2, col3, col4 = st.columns([1.2, 2.5, 1, 1])
 col1.metric("Troops Remaining", f"{current_troops:,}", f"{loss_pct:.1f}%")
 col2.metric("Phase & Stage", f"{curr_row['phase']} — {curr_row['stage']}")
 col3.metric("Date", curr_row['date'])
-col4.metric("Temperature", f"{curr_row['temp']}° Ré" if pd.notnull(curr_row['temp']) else "N/A")
+col4.metric(
+    "Temperature",
+    f"{curr_row['temp']}° Ré" if pd.notnull(curr_row['temp']) else "N/A",
+)
+#######################
 
 # 5. Figure & Filtered Rendering
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 9), sharex=True, gridspec_kw={'height_ratios': [3.2, 1]})
